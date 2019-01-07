@@ -64,9 +64,8 @@ class RelationModel(object):
         probs = F.softmax(logits).data.cpu().numpy().tolist()
         predictions = np.argmax(logits.data.cpu().numpy(), axis=1).tolist()
         if unsort:
-            _, predictions, probs = [list(t) for t in zip(*sorted(zip(orig_idx,\
-                    predictions, probs)))]
-        return predictions, probs, loss.data[0]
+            _, predictions, probs = [list(t) for t in zip(*sorted(zip(orig_idx, predictions, probs)))]
+        return predictions, probs, loss.data.item()
 
     def update_lr(self, new_lr):
         torch_utils.change_lr(self.optimizer, new_lr)
